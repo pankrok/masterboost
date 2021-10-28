@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage{% endblock %}
+{% block jumbotron %}
+<div class="jumbotron jumbotron-fluid jumbo-head">
+  <div class="container">
+    <h1 class="display-4">ProBoost v3</h1>
+    <p class="lead">Best boost for your Counter Strike 1.6 server. And other SEO text</p>
+    <hr class="my-4">
+    <p>
+        <a href="#" class="btn btn-outline-warning mx-2"><i class="fas fa-download"></i> {{ 'Download'|trans }}</a>
+        <a href="#" class="btn btn-outline-success mx-2"><i class="fas fa-chart-line"></i> {{ 'Advertise'|trans }}</a>
+        {% if not app.user %}
+        <a href="{{ path('app_register') }}" class="btn btn-outline-info mx-2"><i class="fas fa-user-plus"></i> {{ 'Sign Up'|trans }}</a>
+        {% endif %}
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="col">
+           
+            <div id="servers-of-the-week" class="card text-center ">
+                <div class="card-header">
+                    {{ 'Best servers of last seven days'|trans }}
+                </div>
+                  <div class="card-body">
+                    {% include 'home/sotw.html.twig' %}  
+                  </div>
+                </div>
+                <!-- server list -->
+                <div class="card mt-1">
+                  <h5 class="card-header">{{ 'Lists'|trans }}</h5>
+                  <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">{{ 'All'|trans }}</a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="dynamic-tab" data-toggle="tab" href="#dynamic" role="tab" aria-controls="dynamic" aria-selected="false">{{ 'Dynamic'|trans }}</a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="static-tab" data-toggle="tab" href="#static" role="tab" aria-controls="static" aria-selected="false">{{ 'Static'|trans }}</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        {% include 'partials/allList.html.twig' %}
+                      </div>
+                      <div class="tab-pane fade" id="dynamic" role="tabpanel" aria-labelledby="dynamic-tab">
+                        {% include 'partials/dynamicList.html.twig' %}
+                      </div>
+                      <div class="tab-pane fade" id="static" role="tabpanel" aria-labelledby="static-tab">
+                        {% include 'partials/staticList.html.twig' %}
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+            <!-- /server list end -->
+                
+            </div>
+{% endblock %}

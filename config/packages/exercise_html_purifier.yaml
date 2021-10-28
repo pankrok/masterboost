@@ -1,0 +1,4 @@
+# config/packages/exercise_html_purifier.yaml
+
+exercise_html_purifier:
+    default_cache_serializer_path: '%kernel.cache_dir%/htmlpurifier'

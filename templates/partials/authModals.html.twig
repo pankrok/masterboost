@@ -1,0 +1,45 @@
+{% if not app.user %}
+<!-- Sign In Modal -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signInLabel">{{ 'Please sign in'|trans }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{{ path('app_login') }}">
+      <div class="modal-body">
+        
+            {% if app.user %}
+                <div class="mb-3">
+                    {{ 'You are logged in as'|trans }} {{ app.user.username }}, <a href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>
+                </div>
+            {% endif %}
+            <label for="inputLogin">{{ 'Login'|trans }}</label>
+            <input type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control" autocomplete="username" required autofocus>
+            <label for="inputPassword">{{ 'Password'|trans }}</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> {{ 'Remember me'|trans }}
+                    </label>
+                </div>        
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+            <a href="{{ path('app_forgot_password_request') }}">{{ 'forget password'|trans }}</a>
+            <button class="btn btn-primary" type="submit">
+                {{ 'Sign in'|trans }}
+            </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}

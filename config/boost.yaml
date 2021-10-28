@@ -1,0 +1,7 @@
+maxStatic: 50
+staticCostPerDay: 20
+maxDynamic: 1000
+minRate: 0.01
+minDays: 1
+minCredits: 1
+termUrl: '/foobar'

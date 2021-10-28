@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.user.login }} {{ 'wallet'|trans }}{% endblock %}
+
+{% block body %}
+<div class="col">
+{% if can_edit %}
+
+<div class="card">
+  <div class="card-header">
+    {{ 'User'|trans }}:{{ app.user.login }} #{{ 'wallet'|trans }}
+    <span class="float-right">
+        {{ app.user.wallet }} <i class="fas fa-coins" data-toggle="tooltip" data-placement="left" title="{% trans %}Amount of boostcoins available in your wallet{% endtrans %}"></i>
+    </span>
+  </div>
+  <div class="card-body">
+  {% include 'user_panel/navbar.html.twig' %}
+<hr />
+    <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{ 'top up your account'|trans }}</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{ 'transactions'|trans }}</a>
+          </li>
+        </ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  {% if tp_active %}
+    <h6 class="mt-2">{{ 'bank transfer'|trans }}:</h6>
+    {{ form(tpay_form) }}
+        <hr />
+  {% endif %}
+    {{ form(wallet_form) }}
+  </div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    {% for transaction in transactions %}
+        <ul class="list-group mt-2">
+          <li class="list-group-item d-flex justify-content-between"><div>{{ transaction.type }}: {{ transaction.operation }} - {{ transaction.paid }} / {{ transaction.amount }} <i class="fas fa-coins"></i></div> <div>status: {{ transaction.status }}</div></li>
+        </ul>
+    {% endfor %}
+  </div>
+</div>
+
+  
+    
+
+    
+  </div>
+</div>
+
+{% else %}
+    <div class="alert alert-danger" role="alert">
+        {% trans %}You dont have permission to see this page!{% endtrans %}
+    </div>
+{% endif %}
+</div>
+{% endblock %}

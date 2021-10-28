@@ -1,0 +1,66 @@
+<header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-md-5">
+            <a class="navbar-brand" href="{{ path('home') }}">ProBoost</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('home') }}"><i class="fas fa-home"></i> Home</a>
+              </li>
+              
+               <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-th-list"></i> {{ 'Lists'|trans }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ path('all_list') }}"><i class="fas fa-list-ol"></i> {{ 'All'|trans }}</a>
+                  <a class="dropdown-item" href="{{ path('dynamic_list') }}"><i class="fas fa-sort-amount-down"></i> {{ 'Dynamic'|trans }}</a>
+                  <a class="dropdown-item" href="{{ path('static_list') }}"><i class="fas fa-sort-amount-down-alt"></i> {{ 'Static'|trans }}</a>
+                </div>
+              </li>
+              
+              
+              {% for page in pages %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('page', {'slug': page.name}) }}">{{ page.prefix|raw }} {{ page.name|trans }}</a>
+              </li>
+              {% endfor %}
+              
+            </ul>
+            <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-flag"></i> {% trans %}Language{% endtrans %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                  <a class="dropdown-item" href="{{ path('locale', {'_locale': 'gb'}) }}"><img src="{{ asset('assets/img/flags/gb.png') }}"> {% trans %}English{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{ path('locale', {'_locale': 'pl'}) }}"><img src="{{ asset('assets/img/flags/pl.png') }}"> {% trans %}Polish{% endtrans %}</a>
+                  <a class="dropdown-item" href="{{ path('locale', {'_locale': 'ru'}) }}"><img src="{{ asset('assets/img/flags/ru.png') }}"> {% trans %}Russian{% endtrans %}</a>
+                </div>
+            </li>
+            {% if app.user %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i> {{ app.user }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ path('user_panel', {'slug': app.user.id}) }}"><i class="fas fa-cogs"></i> {{ 'User Panel'|trans }}</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item"href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> {{ 'Logout'|trans }}</a>
+                </div>
+            </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_register') }}"><i class="fas fa-user-plus"></i> {{ 'Sign Up'|trans }}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#signInModal"><i class="fas fa-sign-in"></i> {{ 'Sign In'|trans }}</a>
+              </li>
+            {% endif %}
+            </ul>
+          </div>
+        </nav>
+
+    </header>

@@ -1,0 +1,90 @@
+body {
+    background-color: #e8e8e8;
+}
+
+main {
+    padding-top: 10px;
+}
+
+.container {
+    max-width: 1480px;
+}   
+
+.progress-bar > span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+    font-weight: bold;
+    left: 0;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.my-sm, .my-sm {
+    width: 3% !important;
+    opacity: .6 !important;
+}
+
+.mh280 {
+    min-height: 280px;
+}
+
+.pos_1 {
+  color: gold;  
+}
+
+.pos_2 {
+  color: silver;  
+}
+
+.pos_3 {
+  color: #cd7f32;  
+}
+
+footer {
+    background-color: #343a40;
+    margin-top: 1.5rem;
+    padding: .5rem;
+    height: 40px;
+}
+
+.jumbo-head{
+  background-image: url("/assets/img/jumbo.webp");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #343a40;
+  color: white !important;
+  border-radius: .25rem;
+}
+#navbarNav > .navbar-nav > .nav-item:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 0 0 5px 5px;
+    background: #1987e2;
+    box-shadow: 0 10px 40px 0 #1987e2;
+    z-index: 1000;
+    transform: scaleX(0);
+    transform-origin: top center;
+    -webkit-transition: 0.3s ease-in-out all;
+    -o-transition: 0.3s ease-in-out all;
+    transition: 0.3s ease-in-out all;
+}
+#navbarNav > .navbar-nav >.nav-item:hover:before {
+    transform: scaleX(0);
+}
+a {
+    color: #28a745;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #168f15;
+}

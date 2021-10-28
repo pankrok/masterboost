@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Reset your password'|trans }}{% endblock %}
+
+{% block body %}
+<div class="col">
+<div class="card">
+  <div class="card-body">
+    <h1>{{ 'Reset your password'|trans }}</h1>
+
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+        <button class="btn btn-primary">Reset password</button>
+    {{ form_end(resetForm) }}
+    
+</div></div></div>
+{% endblock %}

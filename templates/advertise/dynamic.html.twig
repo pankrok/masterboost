@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdvertiseController!{% endblock %}
+
+{% block body %}
+<div class="col">
+<div class="card">
+  <div class="card-header">
+    {{ app.user.login }} dashboard
+    <span class="float-right">
+        {{ app.user.wallet }} <i class="fas fa-coins" data-toggle="tooltip" data-placement="left" title="{% trans %}Amount of boostcoins available in your wallet{% endtrans %}"></i>
+    </span>
+  </div>
+  <div class="card-body">
+    {% include 'user_panel/navbar.html.twig' %}
+    <hr />
+    <div class="alert alert-secondary text-center" role="alert">
+      <b>{{ name }}</b>
+    </div>
+    {% if options.days %}
+    <div class="alert alert-primary m-1" role="alert">
+        <div class="d-flex justify-content-between">
+            <div>{{ 'this server have running ads'|trans }}</div>
+            <div id="b_data" data-credits="{{ options.credits }}" data-days="{{ options.days }}" data-rate="{{ options.rate }}"><b>{{ options.days }}</b> - {{ 'days left'|trans }} / <b>{{ options.rate }}</b> - {{ 'current rate per day'|trans }}</div>
+        </div>
+    </div>
+    {% endif %}
+
+    {{ form_start(static_form) }}
+   
+    <div class="row m-5">
+        <div class="col-12">
+            {{ form_row(static_form.credits) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(static_form.days) }}
+        </div>
+        <div class="col-6 d-flex align-items-center justify-content-center">
+            <div class="d-flex flex-column">
+                <div>
+                    {{ 'Rate per day'|trans }}: <b id="cpd">{{ options.rate }}</b>
+                </div>
+                <div>
+                    {{ 'ads end'|trans }}: <b id="aend">
+                    {% if options.days %}
+                     {{ date('now')|date_modify("+"~options.days~" day")|date("d.m.Y") }}
+                    {% else %}
+                    -
+                    {% endif %}
+                    </b>
+                </div>
+            </div>
+        </div>
+         <div class="col-12">
+            {{ form_row(static_form.submit) }}
+        </div>
+    </div>
+    {{ form_end(static_form) }}
+    
+  </div>
+</div>
+</div>
+{% endblock %}
+{% block endbody %}
+<script src="{{ path('base') }}assets/js/masterboost.js"></script>
+{% endblock %}  
+

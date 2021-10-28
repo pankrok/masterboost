@@ -1,0 +1,76 @@
+{% set c = 1 %}
+<div id="carouselExampleControls" class="carousel slide d-sm-block d-md-none" data-ride="carousel">
+      <div class="carousel-inner">
+      {% for server in sotw %}
+        
+        <div class="carousel-item {% if c == 0 %}active{% endif %}">  
+            <!-- one server-->
+                <div class="card" data-toggle="tooltip" data-placement="top" title="{{ server.sid.hostname }}">
+                  <img src="{{ path('base') }}assets/img/maps/{{ server.sid.map }}.jpg" class="card-img-top mh280" alt="{{ server.sid.hostname }}">
+                  <div class="card-body">
+                    <h5 class="card-title">#{{ c }} <i class="fas fa-trophy pos_{{ c }}"></i> {{ server.sid.hostname[:20] }}...</h5>
+                    
+                    <div class="progress">
+                      <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ server.sid.players/server.sid.maxplayers*100 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ server.sid.players/server.sid.maxplayers*100 }}%">
+                      <span>{{ server.sid.players }} /{{ server.sid.maxplayers }}</span>
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                        {{ server.sid.map[:10] }}
+                        </div>
+                        <div class="col-auto">
+                        {{ server.sid.address }}
+                        </div>
+                      </div>               
+                    <a href="{{ path('server', {'sid': server.sid.id}) }}" class=" mt-2 btn btn-outline-success">{{ 'Show more'|trans }}</a>
+                  </div>
+                </div>
+            </div>
+            <!-- /one server end --> 
+      {% set c = c + 1 %}
+      {% endfor %}
+      </div>
+      <a class="carousel-control-prev my-sm" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next  my-sm" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+</div>
+<div class="d-none d-md-block">
+<div class="row">
+{% set c = 1 %}
+{% for server in sotw %}
+        
+        <div class="col-4">  
+            <!-- one server-->
+                <div class="card" data-toggle="tooltip" data-placement="top" title="{{ server.sid.hostname }}">
+                  <img src="{{ path('base') }}assets/img/maps/{{ server.sid.map }}.jpg" class="card-img-top mh280" alt="{{ server.sid.hostname }}">
+                  <div class="card-body">
+                    <h5 class="card-title">#{{ c }} <i class="fas fa-trophy pos_{{ c }}"></i> {{ server.sid.hostname[:20] }}...</h5>
+                    
+                    <div class="progress">
+                      <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ server.sid.players/server.sid.maxplayers*100 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ server.sid.players/server.sid.maxplayers*100 }}%">
+                      <span>{{ server.sid.players }} /{{ server.sid.maxplayers }}</span>
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                        {{ server.sid.map[:10] }}
+                        </div>
+                        <div class="col-auto">
+                        {{ server.sid.address }}
+                        </div>
+                      </div>               
+                    <a href="{{ path('server', {'sid': server.sid.id}) }}" class=" mt-2 btn btn-outline-success">{{ 'Show more'|trans }}</a>
+                  </div>
+                </div>
+            </div>
+            <!-- /one server end --> 
+      {% set c = c + 1 %}
+      {% endfor %}
+</div>
+</div>

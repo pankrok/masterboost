@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserPanelController!{% endblock %}
+
+{% block body %}
+<div class="col">
+    <div class="card mb-1">
+      <div class="card-header">
+        {{ server.hostname }}
+      </div>
+      <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12 col-md-7">
+                    <ul class="list-group list-group-flush mt-4">
+                      <li class="list-group-item">{{ 'address'|trans }}: <span class="float-right">{{ server.address }}</span></li>
+                      <li class="list-group-item">{{ 'map'|trans }}: <span class="float-right">{{ server.map }}</span></li>
+                      <li class="list-group-item">{{ 'players'|trans }}: <span class="float-right">{{ server.players }} / {{ server.maxplayers }}</span></li>
+                      <li class="list-group-item">{{ 'votes'|trans }}: <span class="float-right">{{ server.vote|length }}</span></li>
+                      <li class="list-group-item">{{ 'rank'|trans }}: <span class="float-right">-</span></li>
+                      <li class="list-group-item">{{ 'last update'|trans }}: <span class="float-right">{{ server.dateUpdate|date('d-m-Y H:m') }}</span></li>
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-md-5 d-flex justify-content-center align-items-center">
+                    <img src="{{ path('base') }}assets/img/maps/{{ server.map }}.jpg" class="card-img-top mh280" alt="{{ server.hostname }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     <div class="card">
+      <div class="card-header">
+        {{ 'stats'|trans }}  <span class="float-right"><button id="stats-btn" type="button" class="btn btn-outline-dark btn-sm mx-1">Hide/Show</button></span>
+      </div>
+      <div id="stats" class="card-body">       
+            <canvas id="statsChart"></canvas>
+       </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        {{ 'comments'|trans }} <span class="float-right">
+        <button type="button" class="btn btn-outline-success btn-sm mx-1" data-toggle="modal" data-target="#commentModal">
+          Add Comment
+        </button>
+        {% if server.comments %}
+        <button id="comment-btn" type="button" class="btn btn-outline-dark btn-sm mx-1">Hide/Show</button>
+        {% endif %}
+        </span>
+      </div>
+      <div id="comments" class="card-body" style="display: none;">       
+        {% include 'server/comments.html.twig' %}
+       </div>
+    </div>
+</div>
+{% endblock %}
+{% block rightBlock %}
+<div class="card">
+                  <div class="card-header">
+                    Vote for server.
+                  </div>
+                  <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item text-center">{{ form(voteForm) }}</li>
+                          <li class="list-group-item">{{ 'votes'|trans }}: <span class="float-right">{{ server.vote|length }}</span></li>
+                        </ul>
+                  </div>
+                </div>
+{% endblock %}
+{% block endbody %}
+<span id="data-stats" data-stats="{{ stats }}"></span>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(function() {
+   $( "#comment-btn" ).click(function() {
+      $( "#comments" ).toggle("slow");
+    });
+     $( "#stats-btn" ).click(function() {
+      $( "#stats" ).toggle("slow");
+    });
+});
+
+function prettyDate2(time) {
+  var date = new Date(time);
+  return date.toLocaleTimeString(navigator.language, {
+    hour: '2-digit',
+    minute:'2-digit'
+  });
+}
+
+let stats = $('#data-stats').data();
+console.log(stats.stats);
+
+let h = []; 
+let p = [];
+stats.stats.forEach(function (item) {
+    h.push(prettyDate2(item.createdAt.date));
+    p.push(item.players);
+});
+
+const labels = h;
+const data = {
+  labels: labels,
+  datasets: [{
+    label: "{{ 'players'|trans }}",
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: p,
+    fill: false,
+    cubicInterpolationMode: 'monotone',
+    tension: 0.4
+  }]
+};
+const config = {
+  type: 'line',
+  data: data,
+   options: {
+        responsive: true,
+    }
+};
+const myChart = new Chart(
+    document.getElementById('statsChart'),
+    config
+  );
+
+</script>
+{% if app.user %}
+<!-- Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="max-width: 95%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentModalLabel">Add Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ form(commentForm) }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.4.25/jodit.min.js"></script>
+<script>
+var editor = new Jodit("#comment_comment", {
+  "disablePlugins": "drag-and-drop,drag-and-drop-element,about,iframe,source,image-properties,image-processor,image,media,video,file,resize-cells,select-cells,table-keyboard-navigation,table,print,preview,link,symbols,xpath,search,resize-handler,fullsize"
+});
+</script>
+
+{% endif %}
+{% endblock %}  

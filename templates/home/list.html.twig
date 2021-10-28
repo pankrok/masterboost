@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage{% endblock %}
+{% block jumbotron %}
+{% endblock %}
+
+{% block body %}
+<div class="col">
+                <div class="card">
+                  <h5 class="card-header">{{ list }} </h5>
+                  <div class="card-body">
+                        {% include 'partials/'~list~'List.html.twig' %}
+                  </div>
+                </div>
+            <!-- /server list end -->
+                
+            </div>
+{% endblock %}

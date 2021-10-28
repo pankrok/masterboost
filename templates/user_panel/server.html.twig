@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserPanelController!{% endblock %}
+
+{% block body %}
+<div class="col">
+{% if can_edit %}
+
+<div class="card">
+  <div class="card-header">
+    {{ 'User'|trans }}: {{ app.user.login }} #{{ 'Add server'|trans }}
+    <span class="float-right">
+        {{ app.user.wallet }} <i class="fas fa-coins" data-toggle="tooltip" data-placement="left" title="{% trans %}Amount of boostcoins available in your wallet{% endtrans %}"></i>
+    </span>
+  </div>
+  <div class="card-body">
+    {% include 'user_panel/navbar.html.twig' %}
+    <hr />
+     {{ form(server_form) }}
+  </div>
+</div>
+
+{% else %}
+    <div class="alert alert-danger" role="alert">
+        {% trans %}You dont have permission to see this page!{% endtrans %}
+    </div>
+{% endif %}
+</div>
+{% endblock %}

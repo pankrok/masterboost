@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserPanelController!{% endblock %}
+
+{% block body %}
+<div class="col">
+{% if can_edit %}
+
+<div class="card">
+  <div class="card-header">
+    {{ 'User'|trans }}: {{ app.user.login }} #{{ 'Buy ads'|trans }}
+    <span class="float-right">
+        {{ app.user.wallet }} <i class="fas fa-coins" data-toggle="tooltip" data-placement="left" title="{{ 'Amount of boostcoins available in your wallet'|trans }}"></i>
+    </span>
+  </div>
+  <div class="card-body">
+    {% include 'user_panel/navbar.html.twig' %}
+    <hr />
+    <div class="table-responsive">
+    <table class="table text-center">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Address</th>
+          <th scope="col">Name</th>
+          <th scope="col">Buy</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        {% for server in servers %}
+          <th scope="row">#{{ server.id }}</th>
+          <td>{{ server.address }}</td>
+          <td>{{ server.hostname }}</td>
+          <td>
+              <a href="{{ path('ad_dynamic', {'slug': app.user.id, 'sid': server.id}) }}" type="button" class="btn btn-outline-success m-1">Dynamic</a>
+              {% if not (server.type == 2) %}<a href="{{ path('ad_static', {'slug': app.user.id, 'sid': server.id}) }}" type="button" class="btn btn-outline-success m-1">Static</a>{% endif %}
+          </td>
+        </tr>
+           {% endfor %}
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% if previous >= 0 %}
+            <li class="page-item"><a class="page-link" href="{{ path('user_panel', { slug: app.user.id, offset: previous }) }}">Previous</a></li>
+        {% endif %}
+        {% if next < servers|length %}
+            <li class="page-item ml-auto"><a class="page-link" href="{{ path('user_panel', { slug: app.user.id, offset: next }) }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    </div>
+  </div>
+</div>
+
+{% else %}
+    <div class="alert alert-danger" role="alert">
+        {% trans %}You dont have permission to see this page!{% endtrans %}
+    </div>
+{% endif %}
+</div>
+{% endblock %}

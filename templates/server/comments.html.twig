@@ -1,0 +1,24 @@
+{% if server.comments %}
+<ul class="list-group list-group-flush">
+ {% for comment in server.comments %}
+ {% if comment.accept %}
+ <li class="list-group-item">
+  <div class="row">
+    <div class="col-sm-12 col-md-2 text-center">
+        <i class="fas fa-exclamation-circle float-left position-absolute" data-toggle="tooltip" data-placement="right" title="Raport abuse"></i>
+        <img src="{{ comment.uid.avatar }}" class="rounded-circle m-2" style="height: 75px; width: 75px;"><br />
+        <strong>{{ comment.uid.username }}</strong>
+        <p>{{ comment.createdAt|date('d-m-Y H:m') }}</p>
+        <hr>
+    </div>
+    <div class="col-sm-12 col-md-10">
+        <p>
+            {{ comment.comment|raw }}
+        </p>
+    </div>
+  </div>
+  </li>
+{% endif %}
+  {% endfor %}
+</ul>
+{% endif %}

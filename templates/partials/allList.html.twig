@@ -1,0 +1,26 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">{{ 'Position'|trans }}</th>
+          <th scope="col">{{ 'Name'|trans }}</th>
+          <th scope="col">{{ 'IP'|trans }}</th>
+          <th scope="col">{{ 'Players'|trans }}</th>
+          <th scope="col">{{ 'Map'|trans }}</th>
+          <th scope="col">{{ 'Votes'|trans }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for server in servers %}
+            <tr>
+              <th scope="row">#</th>
+              <th scope="col"><a href="{{ path('server', {'sid': server.getSid.id}) }}">{{ server.getSid.hostname }}</a></th>
+              <th scope="col">{{ server.getSid.address }}</th>
+              <th scope="col">{{ server.getSid.players }} / {{ server.getSid.maxplayers }}</th>
+              <th scope="col">{{ server.getSid.map }}</th>
+              <th scope="col">{{ server.getSid.vote|length  }}</th>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserPanelController!{% endblock %}
+
+{% block body %}
+<div class="col">
+{% if can_edit %}
+
+<div class="card">
+  <div class="card-header">
+    {{ 'User'|trans }}: {{ app.user.login }} #{{ 'Dashboard'|trans }}
+    <span class="float-right">
+        {{ app.user.wallet }} <i class="fas fa-coins" data-toggle="tooltip" data-placement="left" title="{% trans %}Amount of boostcoins available in your wallet{% endtrans %}"></i>
+    </span>
+  </div>
+  <div class="card-body">
+    {% include 'user_panel/navbar.html.twig' %}
+    <hr />
+    <h2 class="card-title text-center">{{ 'Your servers'|trans }}</h2>
+    <div class="table-responsive">
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{{ 'Address'|trans }}</th>
+          <th scope="col">{{ 'Hostname'|trans }}</th>
+          <th scope="col">{{ 'Boost'|trans }}</th>
+          <th scope="col">{{ 'Enddate'|trans }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for server in servers %}
+        <tr>
+          <th scope="row">{{ server.id }}</th>
+          <td>{{ server.address }}</td>
+          <td>{{ server.hostname }}</td>
+          <td>{{ server.type }}</td>
+          <td>  {{ 'static'|trans }}: {% if server.dateendstatic %}{{ server.dateendstatic|date("d-m-Y") }}{% else %} - {% endif %}<br />
+                {{ 'dynamic'|trans }}: {% if server.dateenddynamic %}{{ server.dateenddynamic|date("d-m-Y") }}{% else %} - {% endif %}</td> 
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% if previous >= 0 %}
+            <li class="page-item"><a class="page-link" href="{{ path('user_panel', { slug: app.user.id, offset: previous }) }}">{{ 'Previous'|trans }}</a></li>
+        {% endif %}
+        {% if next < servers|length %}
+            <li class="page-item ml-auto"><a class="page-link" href="{{ path('user_panel', { slug: app.user.id, offset: next }) }}">{{ 'Next'|trans }}</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    
+    
+  </div>
+</div>
+
+{% else %}
+    <div class="alert alert-danger" role="alert">
+        {% trans %}You dont have permission to see this page!{% endtrans %}
+    </div>
+{% endif %}
+</div>
+{% endblock %}

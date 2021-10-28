@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Register'|trans }}{% endblock %}
+
+{% block body %}
+    
+    <div class="col">   
+        {% for flashError in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ 'Register'|trans }}</h1>
+            </div>
+            <div class="card-body">
+                {{ form_start(registrationForm) }}
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        {{ form_row(registrationForm.login) }}
+                    </div>
+                     <div class="col-sm-12 col-md-6">
+                        {{ form_row(registrationForm.email) }}
+                    </div>
+                     <div class="col-sm-12 col-md-6">
+                        {{ form_row(registrationForm.password) }}
+                    </div>
+                      <div class="col-sm-12 col-md-6">
+                        {{ form_row(registrationForm.confirmPassword) }}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                        {{ form_label(registrationForm.agreeTerms) }}
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'checkbox'}}) }}
+
+                        <a href="{{ url_to_terms }}">{{ form_help(registrationForm.agreeTerms) }}</a>
+
+                        <div class="form-error">
+                            {{ form_errors(registrationForm.agreeTerms) }}
+                        </div>
+                        </div>
+                    </div>
+                     <div class="col-12 text-right">
+                        {{ form_row(registrationForm.submit) }}
+                    </div>
+                </div>
+                 {{ form_end(registrationForm) }}
+            </div>
+        </div>     
+    </div>
+    
+
+    
+{% endblock %}
