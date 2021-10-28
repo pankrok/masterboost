@@ -12,8 +12,10 @@ class AdminFixtures extends Fixture
     {
         $user = new User();
         $user->setLogin('admin');
-        $user->setRoles(['ROLE_SUPERADMIN']);
+        $user->setRoles('ROLE_SUPERADMIN');
         $user->setPassword('admin');
+        $user->setWallet(0);
+        $user->setBanned(0);
         $user->setEmail('admin@admin.com');
         $user->setIsVerified(true);
         
