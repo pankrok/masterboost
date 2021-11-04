@@ -29,7 +29,7 @@
     
      <div class="card">
       <div class="card-header">
-        {{ 'stats'|trans }}  <span class="float-right"><button id="stats-btn" type="button" class="btn btn-outline-dark btn-sm mx-1">Hide/Show</button></span>
+        {{ 'stats'|trans }}  <span class="float-right"><button id="stats-btn" type="button" class="btn btn-outline-dark btn-sm mx-1"><i class="fas fa-low-vision"></i></button></span>
       </div>
       <div id="stats" class="card-body">       
             <canvas id="statsChart"></canvas>
@@ -43,7 +43,7 @@
           Add Comment
         </button>
         {% if server.comments %}
-        <button id="comment-btn" type="button" class="btn btn-outline-dark btn-sm mx-1">Hide/Show</button>
+        <button id="comment-btn" type="button" class="btn btn-outline-dark btn-sm mx-1"><i class="fas fa-low-vision"></i></button>
         {% endif %}
         </span>
       </div>
@@ -56,7 +56,7 @@
 {% block rightBlock %}
 <div class="card">
                   <div class="card-header">
-                    Vote for server.
+                    {{ 'Vote for server'|trans }}.
                   </div>
                   <div class="card-body">
                         <ul class="list-group list-group-flush">
@@ -96,14 +96,14 @@ stats.stats.forEach(function (item) {
     h.push(prettyDate2(item.createdAt.date));
     p.push(item.players);
 });
-
+var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
 const labels = h;
 const data = {
   labels: labels,
   datasets: [{
     label: "{{ 'players'|trans }}",
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
+    backgroundColor: randomColor,
+    borderColor: randomColor,
     data: p,
     fill: false,
     cubicInterpolationMode: 'monotone',
@@ -114,7 +114,7 @@ const config = {
   type: 'line',
   data: data,
    options: {
-        responsive: true,
+        responsive: true,    
     }
 };
 const myChart = new Chart(

@@ -93,6 +93,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $votes;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $discount;
+
     public function __construct()
     {
         $this->servers = new ArrayCollection();
@@ -149,14 +154,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         if(empty($roles)) $roles[] = 'ROLE_USER';
-
+        
         return array_unique($roles);
     }
 
     public function setRoles($roles): self
     {
-        $this->roles[] = $roles;
-
+        if (is_array($roles)) {
+            $this->roles = $roles;
+        } else {
+            $this->roles[] = $roles;
+        }
+        return $this;
+    }
+    
+    public function clearRoles(): self
+    {
+        $this->roles = [];
+        
         return $this;
     }
 
@@ -418,6 +433,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $vote->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDiscount(): ?float
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?float $discount): self
+    {
+        $this->discount = $discount;
 
         return $this;
     }

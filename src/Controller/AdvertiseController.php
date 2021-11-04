@@ -31,6 +31,13 @@ class AdvertiseController extends AbstractController
     {
         $this->config = Yaml::parseFile($this->getParameter('kernel.project_dir') . '/config/boost.yaml');
         $user = $this->getUser();
+        $discount = $user->getDiscount() ?? 1;
+        if ($discount < 1) {
+            $discount = 1;
+        } else {
+            $discount = 1 + ($discount/100);    
+        }
+        
         $f = null;
         $server = $serversRepository->find($sid);
         $options =  [
@@ -43,7 +50,7 @@ class AdvertiseController extends AbstractController
             $now = time(); // or your date as well
             $your_date = $server->getDateEndDynamic() ? strtotime($server->getDateEndDynamic()->format('Y-m-d H:i:s')) : $now;
             $datediff  = round(($your_date - $now) / (60 * 60 * 24));
-            $credits = $datediff * $server->getRate();
+            $credits = $datediff * $server->getRate() * $discount;
             $options = [
                 'credits' => $credits,
                 'days' => round($datediff, 0),
@@ -123,6 +130,12 @@ class AdvertiseController extends AbstractController
     {
         $this->config = Yaml::parseFile($this->getParameter('kernel.project_dir') . '/config/boost.yaml');
         $user = $this->getUser();
+        $discount = $user->getDiscount() ?? 1;
+        if ($discount < 1) {
+            $discount = 1;
+        } else {
+            $discount = 1 + ($discount/100);    
+        }
         $f = null;
         $server = $serversRepository->find($sid);
         $options =  [
@@ -135,7 +148,7 @@ class AdvertiseController extends AbstractController
             $now = time(); // or your date as well
             $your_date = $server->getDateEndStatic() ? strtotime($server->getDateEndStatic()->format('Y-m-d H:i:s')) : $now;
             $datediff  = round(($your_date - $now) / (60 * 60 * 24));
-            $credits = $datediff * $server->getRate();
+            $credits = $datediff * $server->getRate() * $discount;
             $options = [
                 'days' => round($datediff, 0),
             ];

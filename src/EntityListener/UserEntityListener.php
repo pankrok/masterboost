@@ -10,12 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 class UserEntityListener
 {
     private $passwordHasher;
+    private $pass;
+    private $roles;
 
     public function __construct(UserPasswordHasherInterface  $passwordHasher)
     {
         $request = Request::createFromGlobals();
         $this->passwordHasher = $passwordHasher;
         $this->pass = $request->request->get('User')["password"] ?? '';
+        $this->roles = $request->request->get('User')["roles"] ?? '';
     }
 
     public function prePersist(User $user, LifecycleEventArgs $event)
@@ -34,5 +37,9 @@ class UserEntityListener
                 $this->pass
             ));
         }
+        
+        // if($this->roles) {
+            // $user->setRoles($this->roles);
+        // }
     }
 }

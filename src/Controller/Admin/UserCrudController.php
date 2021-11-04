@@ -37,6 +37,7 @@ class UserCrudController extends AbstractCrudController
                 EmailField::new('email')->setFormTypeOption('disabled', true),
                 TextField::new('login')->setFormTypeOption('disabled', true),
                 NumberField::new('wallet'),
+                NumberField::new('discount'),
                 BooleanField::new('banned'),
                 BooleanField::new('isVerified'),
                 AssociationField::new('servers')->onlyOnIndex()
@@ -53,8 +54,8 @@ class UserCrudController extends AbstractCrudController
                     ->setFormTypeOptions(['required' => false, 'empty_data' => '']),
                 CollectionField::new('roles')->hideOnIndex()->setFormTypeOptions([
                     'entry_type'   => ChoiceType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
+                    'allow_add' => false,
+                    'allow_delete' => false,
                     'entry_options'  => [
                         'choices'  => [
                             'ROLE_USER' => 'ROLE_USER',
@@ -64,6 +65,7 @@ class UserCrudController extends AbstractCrudController
                         ],
                     ]]),
                 NumberField::new('wallet'),
+                NumberField::new('discount'),
                 BooleanField::new('banned'),
                 BooleanField::new('isVerified'),
                 AvatarField::new('avatar')->hideOnIndex(),

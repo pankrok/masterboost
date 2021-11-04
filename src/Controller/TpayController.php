@@ -20,17 +20,6 @@ class TpayController extends PaymentBasicForms
 
     public function generateForm(array $config) : string
     {
-
-        // $config = array(
-            // 'amount' => 999.99,
-            // 'description' => 'Transaction description',
-            // 'crc' => '100020003000',
-            // 'return_url' => 'https://www.foo.com,
-            // 'result_url' => 'http://example.pl/examples/paymentBasic.php',
-            // 'result_email' => 'shop@example.com',
-            // 'email' => 'customer@example.com',
-            // 'name' => 'John Doe',
-        // );
         return $this->getBankSelectionForm($config, false, true, null, true);
     }
     

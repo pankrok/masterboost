@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'basket'|trans }}{% endblock %}
+
+{% block body %}
+<div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+      <h4>{{ 'SMS Premium payment'|trans }}</h4>
+      {% if errormsg %}
+          <div class="alert alert-danger" role="alert">
+            {{ errormsg|trans }}
+             <span class="float-right">
+        <button id="goBack" type="button" class="btn btn-warning btn-sm">{{ 'go back'|trans }}</button>
+      </span>
+        </div>
+        {% endif %}
+        
+         {% if okmsg %}
+          <div class="alert alert-success" role="alert">
+            {{ okmsg|trans }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+</div>
+{% endblock %}
+{% block endbody %}
+<script>
+$( "#goBack" ).click(function() {
+  window.history.back();
+});
+</script>
+
+{% endblock %} 

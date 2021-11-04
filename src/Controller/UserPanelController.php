@@ -14,6 +14,8 @@ use App\Repository\WalletRepository;
 use App\Repository\PromoCodesRepository;
 use App\Form\WalletFormType;
 use App\Form\PayemntType;
+use App\Form\MicroSmsType;
+use App\Form\UserTransferType;
 use App\Entity\Servers;
 use App\Entity\Wallet;
 use App\Form\AddServerType;
@@ -159,8 +161,19 @@ class UserPanelController extends AbstractController
                 'method' => 'POST',
             ]   );
             
-            $cfg = Yaml::parseFile($this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR  . 'config' . DIRECTORY_SEPARATOR  .'tpay.yaml');
+            $ms_form = $this->createForm(MicroSmsType::class,[],[
+                'action' => $this->generateUrl('payment_sms'),
+                'method' => 'POST',
+            ]  );
             
+            $userTransfer_form = $this->createForm(UserTransferType::class,[],[
+                'action' => $this->generateUrl('payment_transfer'),
+                'method' => 'POST',
+            ]);
+            
+            $tplcfg = Yaml::parseFile($this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR  . 'config' . DIRECTORY_SEPARATOR  .'tpay.yaml');
+            $mslcfg = Yaml::parseFile($this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR  . 'config' . DIRECTORY_SEPARATOR  .'microsms.yaml');
+
         } else {
             $can_edit = false;
         }
@@ -168,9 +181,12 @@ class UserPanelController extends AbstractController
         return $this->render('user_panel/wallet.html.twig', [
             'controller_name' => 'User wallet',
             'can_edit' => $can_edit,
-            'tp_active' => $cfg['active'],
+            'tp_active' => $tplcfg['active'],
+            'ms' => $mslcfg,
+            'ut_form' => $userTransfer_form->createView(),
             'wallet_form' => $form->createView(),
             'tpay_form' => $tpay_form->createView(),
+            'ms_form' => $ms_form->createView(),
             'transactions' => $walletRepository->findByUser($this->getUser()->getId()),
         ]);
     }

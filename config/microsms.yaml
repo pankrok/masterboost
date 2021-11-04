@@ -1,0 +1,7 @@
+active: true
+userid: 11
+serviceid: 11
+text: BOBXYZ
+sms:
+    - { netprice: !!float 1, number: 1, amount: !!float 1, name: '1', product: '1' }
+    - { netprice: !!float 2, number: 2, amount: !!float 2, name: '2', product: '2' }

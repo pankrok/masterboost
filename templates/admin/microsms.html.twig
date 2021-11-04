@@ -1,0 +1,76 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    
+ <div class="row my-5">
+
+{{ form_start(form) }}
+    {# ... #}
+
+    {# store the prototype on the data-prototype attribute #}
+    <div id="sms-fields-list"
+        data-prototype="{{ form_widget(form.sms.vars.prototype)|e }}"
+        data-widget-tags="{{ '<div></div>'|e }}"
+        data-widget-counter="{{ form.sms|length }}">
+    {% for textField in form.sms %}
+        <div class="row">
+            {{ form_errors(textField) }}
+            {{ form_widget(textField) }}
+            <hr >
+        </div>
+    {% endfor %}
+    </div>
+
+    <button type="button"
+        class="add-another-collection-widget btn-primary btn"
+        data-list-selector="#sms-fields-list">Add another sms</button>
+
+    {# ... #}
+{{ form_end(form) }}
+
+
+
+ </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script>
+let removeBtn;
+$(document).ready(function () {
+    removeBtn = $('.remove-collection-btn');
+    removeBtn.click(function (e) {
+            let str = e.target.id;
+            let rm = '#' + str.substring(0, str.length-7);
+            $(rm).remove();
+        });
+    $('.add-another-collection-widget').click(function (e) {
+        var list = jQuery(jQuery(this).attr('data-list-selector'));
+        // Try to find the counter of the list or use the length of the list
+        var counter = list.data('widget-counter') || list.children().length;
+
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        newWidget = newWidget.replace(/__name__/g, counter);
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data('widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+        newElem.addClass("col border-bottom").appendTo(list);
+        removeBtn = $('.remove-collection-btn');
+        removeBtn.click(function (e) {
+            let str = e.target.id;
+            let rm = '#' + str.substring(0, str.length-7);
+            $(rm).remove();
+        });
+    });
+    
+});
+
+</script>
+{% endblock %}

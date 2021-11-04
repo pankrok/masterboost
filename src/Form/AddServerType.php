@@ -22,7 +22,7 @@ class AddServerType extends AbstractType
             ])
             ->add('game', ChoiceType::class, ['choices'  => [
                     'Counter Strike 1.6' => 'cs16',
-                    'Counter Strike Source' => 'css',
+                    // 'Counter Strike Source' => 'css',
                 ]])
             ->add('submit', SubmitType::class)
         ;

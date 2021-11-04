@@ -80,7 +80,10 @@ class DashboardController extends AbstractDashboardController
         if ($this->isGranted('ROLE_SUPERADMIN')) {
             yield MenuItem::section('Configuration');
             yield MenuItem::linkToRoute('Settings', 'fa fa-cogs', 'admin_cfg');
-            yield MenuItem::linkToRoute('Tpay', 'fas fa-money-bill-wave-alt', 'admin_tpay');
+            yield MenuItem::subMenu('Payments', 'fas fa-money-bill-wave-alt')->setSubItems([
+                MenuItem::linkToRoute('Tpay', 'fas fa-credit-card', 'admin_tpay'),
+                MenuItem::linkToRoute('MicroSMS', 'fas fa-mobile-alt', 'micro_sms'),
+            ]);
             yield MenuItem::subMenu('Logs', 'fas fa-history')->setSubItems([
                 MenuItem::linkToCrud('Payments', 'fas fa-dollar-sign', Wallet::class),
             ]);

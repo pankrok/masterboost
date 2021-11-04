@@ -18,20 +18,59 @@
 <hr />
     <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{ 'top up your account'|trans }}</a>
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-money-bill-wave"></i> {{ 'top up your account'|trans }}</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{ 'transactions'|trans }}</a>
+            <a class="nav-link" id="user-transfer-tab" data-toggle="tab" href="#user-transfer" role="tab" aria-controls="user-transfer" aria-selected="false"><i class="fas fa-exchange-alt"></i> {{ 'user transfer'|trans }}</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-list"></i> {{ 'transactions'|trans }}</a>
           </li>
         </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-  {% if tp_active %}
-    <h6 class="mt-2">{{ 'bank transfer'|trans }}:</h6>
-    {{ form(tpay_form) }}
-        <hr />
-  {% endif %}
-    {{ form(wallet_form) }}
+  <div class="tab-pane fade show active py-4" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="row">
+      {% if ms.active %}
+      <div class="col-md col-12-sm">
+      <h4 class="mt-2"><i class="fas fa-mobile-alt"></i> {{ 'SMS Premium payment'|trans }}:</h6>
+          {{ form(ms_form) }}
+        
+        <table class="table table-striped table-sm text-center">
+          <thead>
+            <tr>
+              <th scope="col">{{ 'number'|trans }}</th>
+              <th scope="col">{{ 'sms content'|trans }}</th>
+              <th scope="col">{{ 'sms price'|trans }} [{{ 'currency'|trans }}]</</th>
+              <th scope="col">{{ 'top up'|trans }} [{{ 'currency'|trans }}]</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for data in ms.sms %}
+            <tr>
+              <th scope="row">{{ data.number }}</th>
+              <td>{{ ms.text }}</td>
+              <td>{{ (data.netprice * 1.23)|round(2, 'floor') }}</td>
+              <td>{{ (data.amount * 1.23)|round(2, 'floor') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        
+      </div>
+      {% endif %}
+          <div class="col-md col-12-sm"">
+          {% if tp_active %}
+            <h4 class="mt-2"><i class="fas fa-credit-card"></i> {{ 'bank transfer'|trans }}:</h6>
+            {{ form(tpay_form) }}
+            <hr />
+          {% endif %}
+          <h4 class="mt-2"><i class="fas fa-percent"></i> {{ 'Use promocode'|trans }}:</h6>
+            {{ form(wallet_form) }}
+          </div>  
+      </div>
+  </div>
+  <div class="tab-pane fade" id="user-transfer" role="tabpanel" aria-labelledby="user-transfer-tab">
+    {{ form(ut_form) }}
   </div>
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
     {% for transaction in transactions %}
@@ -42,10 +81,6 @@
   </div>
 </div>
 
-  
-    
-
-    
   </div>
 </div>
 
@@ -56,3 +91,44 @@
 {% endif %}
 </div>
 {% endblock %}
+
+{% block endbody %}
+{% if can_edit %}
+<!-- Modal -->
+<div class="modal fade" id="second_submit" tabindex="-1" aria-labelledby="second_submitLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="second_submitLabel">{{ 'user transfer'|trans }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ 'confirm send'|trans }} <b id="s_amount"></b> {{ 'of coins to'|trans }} <b id="s_user"></b>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close'|trans }}</button>
+        <button id="user_transfer_second_submit" type="button" class="btn btn-success">{{ 'yes'|trans }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+let btn = $('#user_transfer_submit');
+let submitBtn = $('#user_transfer_second_submit');
+btn.click(function( event ) {
+  event.preventDefault();
+  $('#s_amount').html($('#user_transfer_username').val());
+  $('#s_user').html($('#user_transfer_username').val());
+  $('#second_submit').modal('show');
+    submitBtn.click(function() {
+        $('form[name="user_transfer"]').submit();
+    });
+});
+
+</script>
+{% endif %}
+{% endblock %}
+
