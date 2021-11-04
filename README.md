@@ -18,9 +18,9 @@ Masterboost is a web client for the script masterboost by desire, it allows you 
 ## Setup
 * Download package and install libraries via composer `composer install`.
 * Configure your DB and email in .env.local
-* Run _php/bin console make:migration_
-* Run _php/bin console doctrine:migrations:migrate_
-* Run _php/bin console doctrine:fixtures:load_
+* Run _php bin/console make:migration_
+* Run _php bin/console doctrine:migrations:migrate_
+* Run _php bin/console doctrine:fixtures:load_
 * first login data: admin / admin
 > [DEMO](https://boost.s89.eu) 
 
