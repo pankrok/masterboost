@@ -29,6 +29,8 @@ Masterboost is a web client for the script masterboost by desire, it allows you 
 Ready features:
 * RWD designe,
 * tPay integration
+* MicroSMS integration
+* User cash transfer (between accounts)
 * comments
 * votes
 * top servers of last week
